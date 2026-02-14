@@ -85,4 +85,45 @@ extension StringExtensions on String {
       (match) => '_${match.group(0)?.toLowerCase()}',
     ).toLowerCase();
   }
+
+  /// Converts the string to PascalCase.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = 'hello_world';
+  /// final pascalCase = str.toPascalCase;
+  /// print(pascalCase); // 'HelloWorld'
+  /// ```
+  String get toPascalCase {
+    if (isEmpty) return this;
+    return toCamelCase.capitalize;
+  }
+
+  /// Extracts all numbers from the string.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = 'hello123world456';
+  /// final numbers = str.extractNumbers;
+  /// print(numbers); // [123, 456]
+  /// ```
+  List<int> get extractNumbers {
+    final matches = RegExp(r'\d+').allMatches(this);
+    return matches.map((match) => int.parse(match.group(0)!)).toList();
+  }
+
+  /// Checks if the string is a valid email address.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = 'test@example.com';
+  /// final isValidEmail = str.isValidEmail;
+  /// print(isValidEmail); // true
+  /// ```
+  bool get isValidEmail {
+    final emailRegExp = RegExp(
+      r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+    );
+    return emailRegExp.hasMatch(this);
+  }
 }
