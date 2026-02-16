@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 extension ListExtension<T> on List<T> {
   /// Returns the element at the specified index or null if the index is out of bounds.
   ///
@@ -247,5 +249,65 @@ extension ListExtension<T> on List<T> {
   /// ```
   List<T> union(Iterable<T> other) {
     return [...this, ...other.where((item) => !contains(item))];
+  }
+}
+
+extension NumListExtension on List<int> {
+  /// Calculates sum of all elements
+  ///
+  /// Example:
+  /// ```dart
+  /// final list = [1, 2, 3, 4, 5];
+  /// final sumValue = list.sum;
+  /// print(sumValue); // 15
+  /// ```
+  num get sum => fold(0, (a, b) => a + b);
+
+  /// Calculates average of all elements
+  ///
+  /// Example:
+  /// ```dart
+  /// final list = [1, 2, 3, 4, 5];
+  /// final averageValue = list.average;
+  /// print(averageValue); // 3
+  /// ```
+  double get average => isEmpty ? 0 : sum / length;
+
+  /// Calculates average of all elements
+  ///
+  /// Example:
+  /// ```dart
+  /// final list = [1, 2, 3, 4, 5];
+  /// final medianValue = list.median;
+  /// print(medianValue); // 3
+  /// ```
+  double get median {
+    if (isEmpty) return 0;
+
+    final sorted = List.from(this)..sort();
+    final middle = length ~/ 2;
+
+    if (length.isOdd) {
+      return sorted[middle].toDouble();
+    }
+
+    return (sorted[middle - 1] + sorted[middle]) / 2;
+  }
+
+  /// Calculates standard deviation of all elements
+  ///
+  /// Example:
+  /// ```dart
+  /// final list = [1, 2, 3, 4, 5];
+  /// final standardDeviationValue = list.standardDeviation;
+  /// print(standardDeviationValue); // 1.4142135623730951
+  /// ```
+  double get standardDeviation {
+    if (length <= 1) return 0;
+
+    final avg = average;
+    final variance =
+        map((x) => math.pow(x - avg, 2)).reduce((a, b) => a + b) / (length - 1);
+    return math.sqrt(variance);
   }
 }
