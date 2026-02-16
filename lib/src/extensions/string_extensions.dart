@@ -126,4 +126,86 @@ extension StringExtensions on String {
     );
     return emailRegExp.hasMatch(this);
   }
+
+  /// Checks if the string is a valid URL.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = 'https://example.com';
+  /// final isValidUrl = str.isValidUrl;
+  /// print(isValidUrl); // true
+  /// ```
+  bool get isValidUrl {
+    final urlRegExp = RegExp(
+      r'^(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$',
+    );
+    return urlRegExp.hasMatch(this);
+  }
+
+  /// Truncates the string to the specified length.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = 'hello world';
+  /// final truncated = str.truncate(5);
+  /// print(truncated); // 'hello...'
+  /// ```
+  String truncate(int length, {String suffix = '...'}) {
+    if (length <= 0) {
+      throw ArgumentError('Length must be greater than 0');
+    }
+    if (this.length <= length) return this;
+    return '$substring(0, length - suffix.length)$suffix';
+  }
+
+  /// Checks if the string contains only digits.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = '123';
+  /// final isDigits = str.isDigits;
+  /// print(isDigits); // true
+  /// ```
+  bool get isDigits {
+    final digitRegExp = RegExp(r'^\d+$');
+    return digitRegExp.hasMatch(this);
+  }
+
+  /// Counts the number of occurrences of a substring in the string.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = 'hello world';
+  /// final count = str.countOccurrences('o');
+  /// print(count); // 2
+  /// ```
+  int countOccurrences(String substring) {
+    if (substring.isEmpty) return 0;
+    return substring.allMatches(this).length;
+  }
+
+  /// Removes all whitespace from the string.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = 'hello world';
+  /// final withoutWhiteSpaces = str.removeWhiteSpaces;
+  /// print(withoutWhiteSpaces); // 'helloworld'
+  /// ```
+  String get removeWhiteSpaces => replaceAll(RegExp(r'\s+'), '');
+
+  /// Converts the string to title case.
+  ///
+  /// Example:
+  /// ```dart
+  /// final str = 'hello world';
+  /// final titleCase = str.toTitleCase;
+  /// print(titleCase); // 'Hello World'
+  /// ```
+  String get toTitleCase {
+    return replaceAllMapped(
+      RegExp(r'\w+'),
+      (match) => match.group(0)!.capitalize,
+    );
+  }
 }
