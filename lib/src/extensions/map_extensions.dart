@@ -159,4 +159,28 @@ extension MapExtension<K, V> on Map<K, V> {
     });
     return result;
   }
+
+  /// Filters entries by keys
+  ///
+  /// Example:
+  /// ```dart
+  /// final map = {'a': 1, 'b': 2, 'c': 3};
+  /// final filteredMap = map.filterByKeys((key) => key == 'a');
+  /// print(filteredMap); // {'a': 1}
+  /// ```
+  Map<K, V> filterByKeys(bool Function(K key) predicate) {
+    return Map.fromEntries(entries.where((entry) => predicate(entry.key)));
+  }
+
+  /// Filters entries by values
+  ///
+  /// Example:
+  /// ```dart
+  /// final map = {'a': 1, 'b': 2, 'c': 3};
+  /// final filteredMap = map.filterByValues((value) => value > 1);
+  /// print(filteredMap); // {'b': 2, 'c': 3}
+  /// ```
+  Map<K, V> filterByValues(bool Function(V value) predicate) {
+    return Map.fromEntries(entries.where((entry) => predicate(entry.value)));
+  }
 }
